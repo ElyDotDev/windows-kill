@@ -3,6 +3,8 @@
 
 #custom
 .resources/
+Debug*/
+Release*/
 
 # User-specific files
 *.suo

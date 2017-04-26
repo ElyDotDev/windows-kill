@@ -131,8 +131,8 @@ namespace WindowsKillLibrary {
 		pSymbol->MaxNameLen = MAX_SYM_NAME;
 
 		LPVOID funcCtrlRoutine = NULL;
-		DWORD_PTR dwDisplacement = 0;
-		if (!SymFromAddr(hProcess, (DWORD_PTR)ctrlRoutine, &dwDisplacement, pSymbol)) {
+		DWORD64 dwDisplacement = 0;
+		if (!SymFromAddr(hProcess, (DWORD64)ctrlRoutine, &dwDisplacement, pSymbol)) {
 			return;
 			/*	TODO: Remove. No Exception Available here.
 				throw std::runtime_error(std::string("Cannot SymFromAddr. Code: ") + std::to_string(GetLastError()));

@@ -1,5 +1,18 @@
 #pragma once
 #include <Windows.h>
+
+#ifdef _USRDLL
+#ifdef WINDOWSKILLLIBRARY_EXPORTS
+#define MATHLIBRARY_API __declspec(dllexport)
+#else
+#define MATHLIBRARY_API __declspec(dllimport)
+#endif
+#else
+#define MATHLIBRARY_API
+#endif // 
+
+
+
 namespace WindowsKillLibrary
 {
 	/// <summary>
@@ -17,6 +30,6 @@ namespace WindowsKillLibrary
 	/// </summary>
 	/// <param name="signal_type">The signal type.</param>
 	/// <param name="signal_pid">The signal target process id.</param>
-	void sendSignal(int signal_type, int signal_pid);
+	void MATHLIBRARY_API sendSignal(int signal_type, int signal_pid);
 };
 
