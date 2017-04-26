@@ -1,4 +1,12 @@
 #pragma once
+
+/*
+	Because of https://connect.microsoft.com/VisualStudio/feedback/details/888527/warnings-on-dbghelp-h
+	So when include DbgHelp.h (Even when using visual studio 2015 update 3 with windows 8.1 SDK) two 4091 warrning will be shown 
+	duirng build process. So just disable showing them. The WindowsKillLibrary will be built without any problem.
+*/
+#pragma warning( disable : 4091 )
+
 namespace WindowsKillLibrary {
 	/// <summary>
 	/// Ctrl routine for finding and caching the address of specific event type.
