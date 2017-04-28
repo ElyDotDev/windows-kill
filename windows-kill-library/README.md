@@ -14,13 +14,13 @@ Well, I'm a node.js developer. Node has a functionality that could send signals 
 
 ## Usage Instruction
 ### Prebuilt libraries
-Fastest and easiest way to use the **windows-kill-library** is download the prebuilt libraries. You could find them in repo's [Releases page](https://github.com/alirdn/windows-kill/releases).The library has been built both as a dynamic library (.dll) and static library (.lib) for both 32bit (Win32) and 64bit (x64) Windows.
+Fastest and easiest way to use the **windows-kill-library** is download the prebuilt libraries. You could find them in repo's [Releases page](https://github.com/alirdn/windows-kill/releases). The library has been built both as a dynamic library (.dll) and static library (.lib) for both 32bit (Win32) and 64bit (x64) Windows.
 
 ### Build & direct use of source code
 If you want to use the source code, you must install Visual Studio plus C++ development tools first. I'm developing this project in Visual Studio 2015 update 3. So it's recommended to use the same Visual Studio version. But maybe other versions are ok to use. Also there is no configuration file for other compilers. So any contribution to add other compilers support is welcomed!
 
 After the Visual Studio installation, clone the GitHub project or download the [latest master branch source code](https://github.com/alirdn/windows-kill/archive/master.zip) and extract the downloaded zip.
-If you want to build the library, go to the project folder and open the windows-kill.sln in Visual Studio. From the build menu, click on batch build. There you could see different build configurations. For more information about build configuration see [Build Configurations](https://github.com/alirdn/windows-kill/#build-configurations). Also you could include the library *windows-kill-library.h* in your C++ project source and use the library directly.
+If you want to build the library, go to the project folder and open the windows-kill.sln in Visual Studio. From the build menu, click on batch build. There you could see different build configurations. For more information about build configuration see [Build Configurations](https://github.com/alirdn/windows-kill#build-configurations). Also you could include the library *windows-kill-library.h* in your C++ project source and use the library directly.
 
 ## Usage Examples
 Using the **windows-kill-library** is easy & straightforward. The library only has one exported method. Also two constants are exported.
