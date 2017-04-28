@@ -5,6 +5,7 @@
 .resources/
 Debug*/
 Release*/
+.released-packages/
 
 # User-specific files
 *.suo
