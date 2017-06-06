@@ -11,19 +11,19 @@
 #define WINDOWSKILLLIBRARY_API
 #endif
 
-#define WINDOWSKILLLIBRARY_VERSION "2.0.0"
+#define WINDOWSKILLLIBRARY_VERSION "2.0.1"
 
 namespace WindowsKillLibrary
 {
 	/// <summary>
 	/// Signal type of CTRL + C
 	/// </summary>
-	const DWORD SIGNAL_TYPE_CTRL_C = (int)CTRL_C_EVENT;
+	const DWORD SIGNAL_TYPE_CTRL_C = CTRL_C_EVENT;
 
 	/// <summary>
 	/// Signal type of CTRL + Break
 	/// </summary>
-	const DWORD SIGNAL_TYPE_CTRL_BREAK = (int)CTRL_BREAK_EVENT;
+	const DWORD SIGNAL_TYPE_CTRL_BREAK = CTRL_BREAK_EVENT;
 
 	/// <summary>
 	/// Sends the signal.
