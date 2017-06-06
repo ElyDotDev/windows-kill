@@ -3,7 +3,7 @@
 #include "signal.h"
 
 namespace WindowsKillLibrary {
-	Signal::Signal(DWORD_PTR type, DWORD pid)
+	Signal::Signal(DWORD pid, DWORD_PTR type)
 	{
 		Signal::validateType(type);
 		this->type = type;

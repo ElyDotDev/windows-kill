@@ -11,7 +11,7 @@
 #define WINDOWSKILLLIBRARY_API
 #endif
 
-#define WINDOWSKILLLIBRARY_VERSION "1.0.0"
+#define WINDOWSKILLLIBRARY_VERSION "2.0.0"
 
 namespace WindowsKillLibrary
 {
@@ -28,8 +28,8 @@ namespace WindowsKillLibrary
 	/// <summary>
 	/// Sends the signal.
 	/// </summary>
-	/// <param name="signal_type">The signal type.</param>
 	/// <param name="signal_pid">The signal target process id.</param>
-	void WINDOWSKILLLIBRARY_API sendSignal(DWORD signal_type, DWORD signal_pid);
+	/// <param name="signal_type">The signal type.</param>
+	void WINDOWSKILLLIBRARY_API sendSignal(DWORD signal_pid, DWORD signal_type);
 };
 

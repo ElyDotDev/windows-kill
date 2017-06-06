@@ -10,7 +10,7 @@ using WindowsKillLibrary::sendSignal;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_C;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK;
 
-#define WINDOWSKILL_VERSION "1.0.0"
+#define WINDOWSKILL_VERSION "1.0.1"
 
 int main(int argc,char *argv[])
 {
@@ -61,7 +61,7 @@ int main(int argc,char *argv[])
 	}
 
 	try {
-		sendSignal(signal_type, signal_pid);
+		sendSignal(signal_pid, signal_type);
 		std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
 	}
 	catch (const std::invalid_argument& exception) {

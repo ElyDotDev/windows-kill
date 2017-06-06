@@ -5,8 +5,8 @@
 
 namespace WindowsKillLibrary
 {
-	void sendSignal(DWORD signal_type, DWORD signal_pid) {
-		Signal the_signal(signal_type, signal_pid);
+	void sendSignal(DWORD signal_pid, DWORD signal_type) {
+		Signal the_signal(signal_pid, signal_type);
 		Sender::send(the_signal);
 	}
 };
