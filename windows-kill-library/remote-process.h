@@ -37,6 +37,11 @@ namespace WindowsKillLibrary {
 		HANDLE remote_thread;
 
 		/// <summary>
+		/// Closes the opend process token by handle.
+		/// </summary>
+		void closeProcessToken(void);
+
+		/// <summary>
 		/// Sets the needed privilege for opening the remote process.
 		/// </summary>
 		/// <param name="enable_privilege">if set to <c>true</c> [enable privilege].</param>
@@ -47,6 +52,11 @@ namespace WindowsKillLibrary {
 		/// Closes the opend remote thread by handle.
 		/// </summary>
 		void closeRemoteThread(void);
+
+		/// <summary>
+		/// Closes the opend handle.
+		/// </summary>
+		void closeHandle(void);
 	public:
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RemoteProcess"/> class.

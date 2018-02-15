@@ -54,35 +54,40 @@ namespace WindowsKillLibrary {
 				throw std::runtime_error(std::string("ctrl-routine:findAddress:CreateEvent:code:") + std::to_string(GetLastError()));
 			}
 
-			try {
-				if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlRoutine::customConsoleCtrlHandler, true)) {
-					throw std::runtime_error(std::string("ctrl-routine:findAddress:SetConsoleCtrlHandler:code:") + std::to_string(GetLastError()));
-				}
-
-				if (!GenerateConsoleCtrlEvent(this->event_type, 0)) {
-					throw std::runtime_error(std::string("ctrl-routine:findAddress:GenerateConsoleCtrlEvent:code:") + std::to_string(GetLastError()));
-				}
-
-				DWORD dwWaitResult = WaitForSingleObject(this->found_address_event, INFINITE);
-				if (dwWaitResult == WAIT_FAILED) {
-					throw std::runtime_error(std::string("ctrl-routine:findAddress:WaitForSingleObject:code:") + std::to_string(GetLastError()));
-				}
-
-				if (this->address == NULL) {
-					throw std::runtime_error(std::string("ctrl-routine:findAddress:checkAddressIsNotNull"));
-				}
+			if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlRoutine::customConsoleCtrlHandler, true)) {
+				this->closeFoundAddressEvent();
+				throw std::runtime_error(std::string("ctrl-routine:findAddress:SetConsoleCtrlHandler:code:") + std::to_string(GetLastError()));
 			}
-			catch (std::runtime_error& exception) {
-				if (this->found_address_event != NULL) {
-					if (!CloseHandle(this->found_address_event)) {
-						throw std::runtime_error(std::string("ctrl-routine:findAddress:CloseHandle:code:") + std::to_string(GetLastError()));
-					}
-				}
-				throw std::runtime_error(std::string(exception.what()));
+
+			if (!GenerateConsoleCtrlEvent(this->event_type, 0)) {
+				this->closeFoundAddressEvent();
+				throw std::runtime_error(std::string("ctrl-routine:findAddress:GenerateConsoleCtrlEvent:code:") + std::to_string(GetLastError()));
 			}
+
+			DWORD dwWaitResult = WaitForSingleObject(this->found_address_event, INFINITE);
+			if (dwWaitResult == WAIT_FAILED) {
+				this->closeFoundAddressEvent();
+				throw std::runtime_error(std::string("ctrl-routine:findAddress:WaitForSingleObject:code:") + std::to_string(GetLastError()));
+			}
+
+			if (this->address == NULL) {
+				this->closeFoundAddressEvent();
+				throw std::runtime_error(std::string("ctrl-routine:findAddress:checkAddressIsNotNull"));
+			}
+
+			this->closeFoundAddressEvent();
 		}
 		// TODO: remove;
 		//std::cout << this->event_type << " : " << this->address << "\n";
+	}
+
+	void CtrlRoutine::closeFoundAddressEvent(void) {
+		if (this->found_address_event != NULL) {
+			if (!CloseHandle(this->found_address_event)) {
+				throw std::runtime_error(std::string("ctrl-routine:findAddress:CloseHandle:code:") + std::to_string(GetLastError()));
+			}
+			this->found_address_event = (HANDLE)NULL;
+		}
 	}
 
 	BOOL CtrlRoutine::customConsoleCtrlHandler(DWORD ctrl_type) {

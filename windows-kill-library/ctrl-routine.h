@@ -43,6 +43,11 @@ namespace WindowsKillLibrary {
 		void findAddressByStackBackTrace(void);
 
 		/// <summary>
+		/// Closes the opend found address event.
+		/// </summary>
+		void closeFoundAddressEvent(void);
+
+		/// <summary>
 		/// Custom console ctrl handler.
 		/// </summary>
 		/// <param name="ctrl_type">Type of the ctrl event.</param>
