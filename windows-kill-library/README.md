@@ -50,34 +50,34 @@ using WindowsKillLibrary::SIGNAL_TYPE_CTRL_C;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK;
 
 try {
-		sendSignal(signal_pid, signal_type);
-		std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
-	}
-	catch (const std::invalid_argument& exception) {
-		if (strcmp(exception.what(), "ESRCH") == 0) {
-			std::cout << "Error: Pid dosen't exist." << std::endl;
-		}
-		else if(strcmp(exception.what(), "EINVAL") == 0){
-			std::cout << "Error: Invalid signal type." << std::endl;
-		}
-		else {
-			std::cout << "InvalidArgument: windows-kill-library:" << exception.what() << std::endl;
-		}
-	}
-	catch (const std::system_error& exception) {
-		std::cout << "SystemError " << exception.code() << ": " << exception.what() << std::endl;
-	}
-	catch (const std::runtime_error& exception) {
-		if (strcmp(exception.what(), "EPERM") == 0) {
-			std::cout << "Not enough permission to send the signal." << std::endl;
-		}
-		else {
-			std::cout << "RuntimeError: windows-kill-library:" << exception.what() << std::endl;
-		}
-	}
-	catch (const std::exception& exception) {
-		std::cout << "Error: windows-kill-library:" << exception.what() << std::endl;
-	}
+    sendSignal(signal_pid, signal_type);
+    std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
+}
+catch (const std::invalid_argument& exception) {
+    if (strcmp(exception.what(), "ESRCH") == 0) {
+        std::cout << "Error: Pid dosen't exist." << std::endl;
+    }
+    else if(strcmp(exception.what(), "EINVAL") == 0){
+        std::cout << "Error: Invalid signal type." << std::endl;
+    }
+    else {
+        std::cout << "InvalidArgument: windows-kill-library:" << exception.what() << std::endl;
+    }
+}
+catch (const std::system_error& exception) {
+    std::cout << "SystemError " << exception.code() << ": " << exception.what() << std::endl;
+}
+catch (const std::runtime_error& exception) {
+    if (strcmp(exception.what(), "EPERM") == 0) {
+        std::cout << "Not enough permission to send the signal." << std::endl;
+    }
+    else {
+        std::cout << "RuntimeError: windows-kill-library:" << exception.what() << std::endl;
+    }
+}
+catch (const std::exception& exception) {
+    std::cout << "Error: windows-kill-library:" << exception.what() << std::endl;
+}
 ```
 
 ### WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK
