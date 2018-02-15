@@ -23,17 +23,17 @@ namespace WindowsKillLibrary {
 
 		if (this->handle == NULL) {
 			if (GetLastError() != ERROR_ACCESS_DENIED) {
-				throw std::runtime_error(std::string("remote-process:open:OpenProcess:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:open:OpenProcess");
 			}
 
 			if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &this->process_token)) {
 				this->closeProcessToken();
-				throw std::runtime_error(std::string("remote-process:open:OpenProcessToken:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:open:OpenProcessToken");
 			}
 
 			if (!this->setPrivilege(true)) {
 				this->closeProcessToken();
-				throw std::runtime_error(std::string("remote-process:open:setPrivilege(true)"));
+				throw std::runtime_error(std::string("EPERM"));
 			}
 
 			this->handle = OpenProcess(RemoteProcess::NEEDEDACCESS, false, this->the_signal->getPid());
@@ -41,7 +41,8 @@ namespace WindowsKillLibrary {
 			if (this->handle == NULL) {
 				this->setPrivilege(false);
 				this->closeProcessToken();
-				throw std::runtime_error(std::string("remote-process:open:setPrivilege(true):OpenProcess:code:") + std::to_string(GetLastError()));
+				throw std::runtime_error(std::string("EPERM"));
+				// throw std::runtime_error(std::string("remote-process:open:setPrivilege(true):OpenProcess:code:") + std::to_string(GetLastError()));
 			}
 		}
 	}
@@ -49,7 +50,7 @@ namespace WindowsKillLibrary {
 	void RemoteProcess::closeProcessToken(void) {
 		if (this->process_token != NULL) {
 			if (!CloseHandle(this->process_token)) {
-				throw std::runtime_error(std::string("remote-process:open:close_process_token:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:closeProcessToken");
 			}
 			this->process_token = (HANDLE)NULL;
 		}
@@ -94,26 +95,26 @@ namespace WindowsKillLibrary {
 
 		if (this->remote_thread == NULL) {
 			this->closeHandle();
-			throw std::runtime_error(std::string("remote-process:startRemoteThread:CreateRemoteThread:code:") + std::to_string(GetLastError()));
+			throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:startRemoteThread:CreateRemoteThread");
 		}
 
 		if (ResumeThread(this->remote_thread) == (DWORD)-1) {
 			this->closeHandle();
 			this->closeRemoteThread();
-			throw std::runtime_error(std::string("remote-process:startRemoteThread:ResumeThread:code:") + std::to_string(GetLastError()));
+			throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:startRemoteThread:ResumeThread");
 		}
 
 		if (WaitForSingleObject(this->remote_thread, INFINITE) != WAIT_OBJECT_0) {
 			this->closeHandle();
 			this->closeRemoteThread();
-			throw std::runtime_error(std::string("remote-process:startRemoteThread:WaitForSingleObject:code:") + std::to_string(GetLastError()));
+			throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:startRemoteThread:WaitForSingleObject");
 		}
 
 		DWORD exit_code = 0;
 		if (!GetExitCodeThread(this->remote_thread, (LPDWORD)&exit_code)) {
 			this->closeHandle();
 			this->closeRemoteThread();
-			throw std::runtime_error(std::string("remote-process:startRemoteThread:GetExitCodeThread:code:") + std::to_string(GetLastError()));
+			throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:startRemoteThread:GetExitCodeThread");
 		}
 
 		if (exit_code = STATUS_CONTROL_C_EXIT) {
@@ -123,14 +124,14 @@ namespace WindowsKillLibrary {
 		else {
 			this->closeHandle();
 			this->closeRemoteThread();
-			throw std::runtime_error(std::string("remote-process:startRemoteThread:remote_function:code"));
+			throw std::runtime_error(std::string("remote-process:startRemoteThread:exitCode"));
 		}
 	}
 
 	void RemoteProcess::closeRemoteThread(void) {
 		if (this->remote_thread != NULL) {
 			if (!CloseHandle(this->remote_thread)) {
-				throw std::runtime_error(std::string("remote-process:startRemoteThread:remote_thread:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:closeRemoteThread");
 			}
 			this->remote_thread = (HANDLE)NULL;
 		}
@@ -139,7 +140,7 @@ namespace WindowsKillLibrary {
 	void RemoteProcess::closeHandle(void) {
 		if (this->handle != NULL) {
 			if (!CloseHandle(this->handle)) {
-				throw std::runtime_error(std::string("remote-process:open:close_process_token:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "remote-process:closeHandle");
 			}
 			this->handle = (HANDLE)NULL;
 		}

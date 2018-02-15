@@ -65,11 +65,22 @@ int main(int argc,char *argv[])
 		std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
 	}
 	catch (const std::invalid_argument& exception) {
-		if (strcmp(exception.what(), "signal:pid") == 0) {
+		if (strcmp(exception.what(), "ESRCH") == 0) {
 			std::cout << "Error: Pid dosen't exist." << std::endl;
 		}
 		else { // strcmp(exception.what(), "signal:type") == 0
 			std::cout << "Error: Invalid signal type." << std::endl;
+		}
+	}
+	catch (const std::system_error& exception) {
+		std::cout << "SystemError " << exception.code() << ": " << exception.what() << std::endl;
+	}
+	catch (const std::runtime_error& exception) {
+		if (strcmp(exception.what(), "EPERM") == 0) {
+			std::cout << "Not enough permission to send the signal." << std::endl;
+		}
+		else {
+			throw;
 		}
 	}
 	catch (const std::exception& exception) {

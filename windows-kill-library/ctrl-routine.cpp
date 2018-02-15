@@ -51,23 +51,23 @@ namespace WindowsKillLibrary {
 			this->found_address_event = CreateEvent(NULL, true, false, NULL);
 
 			if (this->found_address_event == NULL) {
-				throw std::runtime_error(std::string("ctrl-routine:findAddress:CreateEvent:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:CreateEvent");
 			}
 
 			if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlRoutine::customConsoleCtrlHandler, true)) {
 				this->closeFoundAddressEvent();
-				throw std::runtime_error(std::string("ctrl-routine:findAddress:SetConsoleCtrlHandler:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:SetConsoleCtrlHandlert");
 			}
 
 			if (!GenerateConsoleCtrlEvent(this->event_type, 0)) {
 				this->closeFoundAddressEvent();
-				throw std::runtime_error(std::string("ctrl-routine:findAddress:GenerateConsoleCtrlEvent:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:GenerateConsoleCtrlEvent");
 			}
 
 			DWORD dwWaitResult = WaitForSingleObject(this->found_address_event, INFINITE);
 			if (dwWaitResult == WAIT_FAILED) {
 				this->closeFoundAddressEvent();
-				throw std::runtime_error(std::string("ctrl-routine:findAddress:WaitForSingleObject:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:WaitForSingleObject");
 			}
 
 			if (this->address == NULL) {
@@ -84,7 +84,7 @@ namespace WindowsKillLibrary {
 	void CtrlRoutine::closeFoundAddressEvent(void) {
 		if (this->found_address_event != NULL) {
 			if (!CloseHandle(this->found_address_event)) {
-				throw std::runtime_error(std::string("ctrl-routine:findAddress:CloseHandle:code:") + std::to_string(GetLastError()));
+				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:closeFoundAddressEvent");
 			}
 			this->found_address_event = (HANDLE)NULL;
 		}
