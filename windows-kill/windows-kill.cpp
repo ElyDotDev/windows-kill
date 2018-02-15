@@ -10,7 +10,7 @@ using WindowsKillLibrary::sendSignal;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_C;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK;
 
-#define WINDOWSKILL_VERSION "1.0.1"
+#define WINDOWSKILL_VERSION "1.1.0"
 
 int main(int argc,char *argv[])
 {
@@ -68,8 +68,11 @@ int main(int argc,char *argv[])
 		if (strcmp(exception.what(), "ESRCH") == 0) {
 			std::cout << "Error: Pid dosen't exist." << std::endl;
 		}
-		else { // strcmp(exception.what(), "signal:type") == 0
+		else if(strcmp(exception.what(), "EINVAL") == 0){
 			std::cout << "Error: Invalid signal type." << std::endl;
+		}
+		else {
+			std::cout << "InvalidArgument: windows-kill-library:" << exception.what() << std::endl;
 		}
 	}
 	catch (const std::system_error& exception) {
@@ -80,7 +83,7 @@ int main(int argc,char *argv[])
 			std::cout << "Not enough permission to send the signal." << std::endl;
 		}
 		else {
-			throw;
+			std::cout << "RuntimeError: windows-kill-library:" << exception.what() << std::endl;
 		}
 	}
 	catch (const std::exception& exception) {
