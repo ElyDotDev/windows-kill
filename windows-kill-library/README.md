@@ -38,7 +38,7 @@ void sendSignal(DWORD signal_pid, DWORD signal_type);
 
 This method will throw an exception in case of any error. If no exception thrown, The signal has been sent successfully.
 
-All the exception could be catched by catching ```std::exception```. But two ```std::invalid_argument``` will be sent in case of invalid ```signal_type``` and ```signal_pid```. Invalid ```signal_type``` exception message is ```signal:type``` and invalid ```signal_pid``` exception message is ```signal:pid```.
+All the exception could be catched by catching ```std::exception```. But two ```std::invalid_argument``` will be sent in case of invalid ```signal_type``` and ```signal_pid```. Invalid ```signal_type``` exception message is ```EINVAL``` and invalid ```signal_pid``` exception message is ```ESRCH```.
 
 #### Exception handeling example code
 ```c++
@@ -50,20 +50,34 @@ using WindowsKillLibrary::SIGNAL_TYPE_CTRL_C;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK;
 
 try {
-    sendSignal((DWORD)1234, SIGNAL_TYPE_CTRL_C);
-    std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
-}
-catch (const std::invalid_argument& exception) {
-    if (strcmp(exception.what(), "signal:pid") == 0) {
-        std::cout << "Error: Pid dosen't exist." << std::endl;
-    }
-    else { // strcmp(exception.what(), "signal:type") == 0
-        std::cout << "Error: Invalid signal type." << std::endl;
-    }
-}
-catch (const std::exception& exception) {
-    std::cout << "Error: windows-kill-library:" << exception.what() << std::endl;
-}
+		sendSignal(signal_pid, signal_type);
+		std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
+	}
+	catch (const std::invalid_argument& exception) {
+		if (strcmp(exception.what(), "ESRCH") == 0) {
+			std::cout << "Error: Pid dosen't exist." << std::endl;
+		}
+		else if(strcmp(exception.what(), "EINVAL") == 0){
+			std::cout << "Error: Invalid signal type." << std::endl;
+		}
+		else {
+			std::cout << "InvalidArgument: windows-kill-library:" << exception.what() << std::endl;
+		}
+	}
+	catch (const std::system_error& exception) {
+		std::cout << "SystemError " << exception.code() << ": " << exception.what() << std::endl;
+	}
+	catch (const std::runtime_error& exception) {
+		if (strcmp(exception.what(), "EPERM") == 0) {
+			std::cout << "Not enough permission to send the signal." << std::endl;
+		}
+		else {
+			std::cout << "RuntimeError: windows-kill-library:" << exception.what() << std::endl;
+		}
+	}
+	catch (const std::exception& exception) {
+		std::cout << "Error: windows-kill-library:" << exception.what() << std::endl;
+	}
 ```
 
 ### WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK
