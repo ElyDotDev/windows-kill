@@ -20,7 +20,7 @@ Fastest and easiest way to use the **windows-kill-library** is download the preb
 If you want to use the source code, you must install Visual Studio plus C++ development tools first. I'm developing this project in Visual Studio 2015 update 3. So it's recommended to use the same Visual Studio version. But maybe other versions are ok to use. Also there is no configuration file for other compilers. So any contribution to add other compilers support is welcomed!
 
 After the Visual Studio installation, clone the GitHub project or download the [latest master branch source code](https://github.com/alirdn/windows-kill/archive/master.zip) and extract the downloaded zip.
-If you want to build the library, go to the project folder and open the windows-kill.sln in Visual Studio. From the build menu, click on batch build. There you could see different build configurations. For more information about build configuration see [Build Configurations](https://github.com/alirdn/windows-kill#build-configurations). Also you could include the library *windows-kill-library.h* in your C++ project source and use the library directly.
+If you want to build the library, go to the project folder and open the windows-kill.sln in Visual Studio. From the build menu, click on batch build. There you could see different build configurations. For more information about build configuration see [Build Configurations](#build-configurations). Also you could include the library *windows-kill-library.h* in your C++ project source and use the library directly.
 
 ## Usage Examples
 Using the **windows-kill-library** is easy & straightforward. The library only has one exported method. Also two constants are exported.
@@ -31,9 +31,9 @@ This method is the only thing you should call to send the signal to process. You
 /// <summary>
 /// Sends the signal.
 /// </summary>
-/// <param name="signal_type">The signal type.</param>
 /// <param name="signal_pid">The signal target process id.</param>
-void sendSignal(DWORD signal_type, DWORD signal_pid);
+/// <param name="signal_type">The signal type.</param>
+void WINDOWSKILLLIBRARY_API sendSignal(DWORD signal_pid, DWORD signal_type);
 ```
 
 This method will throw an exception in case of any error. If no exception thrown, The signal has been sent successfully.
@@ -50,7 +50,7 @@ using WindowsKillLibrary::SIGNAL_TYPE_CTRL_C;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK;
 
 try {
-    sendSignal(SIGNAL_TYPE_CTRL_C, (DWORD)1234);
+    sendSignal((DWORD)1234, SIGNAL_TYPE_CTRL_C);
     std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
 }
 catch (const std::invalid_argument& exception) {

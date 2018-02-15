@@ -22,7 +22,7 @@ Both the 32bit (Win32) and 64bit (x64) versions are available.
 If you want to compile from the source code, you must install Visual Studio plus C++ development tools first. I'm developing this project in Visual Studio 2015 update 3. So it's recommended to use the same Visual Studio version. But maybe other versions are ok to use. Also I didn't compile the project using other C++ compilers. So any contribution to add other compilers support is welcomed!
 
 After the Visual Studio installation, clone the GitHub project or download the [latest master branch source code](https://github.com/alirdn/windows-kill/archive/master.zip) and extract the downloaded zip.
-Go to the project folder and open the windows-kill.sln in Visual Studio. From the build menu, click on batch build. There you could see different build configurations. For more information about build configuration see [Build Configurations](https://github.com/alirdn/windows-kill#build-configurations).
+Go to the project folder and open the windows-kill.sln in Visual Studio. From the build menu, click on batch build. There you could see different build configurations. For more information about build configuration see [Build Configurations](#build-configurations).
 
 ## Usage Examples
 Using the **windows-kill** is easy & straightforward. It's just like POSIX kill. Just navigate to the folder that contains windows-kill.exe and open a cmd from that folder. Or add that folder in Environment Variables so you could use the command from any cmd.
