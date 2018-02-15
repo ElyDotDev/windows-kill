@@ -11,7 +11,7 @@
 #define WINDOWSKILLLIBRARY_API
 #endif
 
-#define WINDOWSKILLLIBRARY_VERSION "2.1.0"
+#define WINDOWSKILLLIBRARY_VERSION "3.0.0"
 
 namespace WindowsKillLibrary
 {
