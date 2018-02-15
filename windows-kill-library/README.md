@@ -33,7 +33,7 @@ This method is the only thing you should call to send the signal to process. You
 /// </summary>
 /// <param name="signal_pid">The signal target process id.</param>
 /// <param name="signal_type">The signal type.</param>
-void WINDOWSKILLLIBRARY_API sendSignal(DWORD signal_pid, DWORD signal_type);
+void sendSignal(DWORD signal_pid, DWORD signal_type);
 ```
 
 This method will throw an exception in case of any error. If no exception thrown, The signal has been sent successfully.
