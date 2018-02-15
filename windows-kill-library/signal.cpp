@@ -21,7 +21,7 @@ namespace WindowsKillLibrary {
 
 	void Signal::validateType(DWORD_PTR type) {
 		if (!(type == CTRL_C_EVENT || type == CTRL_BREAK_EVENT)) {
-			throw std::invalid_argument(std::string("signal:type"));
+			throw std::invalid_argument(std::string("EINVAL"));
 		}
 	}
 
@@ -44,7 +44,7 @@ namespace WindowsKillLibrary {
 		CloseHandle(pss);
 
 		if (!exist) {
-			throw std::invalid_argument(std::string("signal:pid"));
+			throw std::invalid_argument(std::string("ESRCH"));
 		}
 	}
 }
