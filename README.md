@@ -1,4 +1,6 @@
 # windows-kill
+![windows-kill – Send signal to process by PID in Windows, like POSIX kill](windows-kill/resources/windows-kill-big-banner.png?raw=true "windows-kill – Send signal to process by PID in Windows, like POSIX kill")
+
 ### Send signal to process by PID in Windows, like POSIX kill
 
 Windows has no process signaling mechanism like what POSIX provide using the kill command. But **windows-kill** could send signal to process by PID. :)

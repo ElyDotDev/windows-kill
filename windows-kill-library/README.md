@@ -1,4 +1,6 @@
 # windows-kill-library
+![windows-kill-library – Library to send signal to process by PID in Windows, like POSIX kill](resources/windows-kil-libraryl-medium-banner.png?raw=true "windows-kill-library – Library to send signal to process by PID in Windows, like POSIX kill")
+
 ### Library to send signal to process by PID in Windows, like POSIX kill
 
 Windows has no process signaling mechanism like what POSIX provide using the kill command. But by using **windows-kill-library**, process signaling is possible. :)
