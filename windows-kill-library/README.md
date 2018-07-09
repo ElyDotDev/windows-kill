@@ -1,5 +1,5 @@
 # windows-kill-library
-![windows-kill-library – Library to send signal to process by PID in Windows, like POSIX kill](resources/windows-kil-libraryl-big-banner.png?raw=true "windows-kill-library – Library to send signal to process by PID in Windows, like POSIX kill")
+![windows-kill-library – Library to send signal to process by PID in Windows, like POSIX kill](resources/windows-kill-library-big-banner.png?raw=true "windows-kill-library – Library to send signal to process by PID in Windows, like POSIX kill")
 
 ### Library to send signal to process by PID in Windows, like POSIX kill
 
