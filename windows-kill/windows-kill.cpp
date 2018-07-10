@@ -10,7 +10,7 @@ using WindowsKillLibrary::sendSignal;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_C;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK;
 
-#define WINDOWSKILL_VERSION "1.1.0"
+#define WINDOWSKILL_VERSION "1.1.1"
 
 int main(int argc,char *argv[])
 {
