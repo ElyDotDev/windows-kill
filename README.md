@@ -77,4 +77,4 @@ The **windows-kill** & **windows-kill-library** are based on:
 We love contributions from everyone. Please read [Contributing guide](https://github.com/alirdn/windows-kill/blob/master/CONTRIBUTING.md).
 
 ## License
-[MIT](https://github.com/alirdn/windows-kill/LICENSE)
+[MIT](https://github.com/alirdn/windows-kill/blob/master/LICENSE)
