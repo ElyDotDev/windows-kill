@@ -94,7 +94,7 @@ The **windows-kill-library** is based on:
 - [Enhanced version of SendSignal](https://github.com/walware/statet/tree/master/de.walware.statet.r.console.core/cppSendSignal)
 
 ## Contributing
-We love contributions from everyone. Please read [Contributing guide](https://github.com/alirdn/windows-kill/CONTRIBUTING).
+We love contributions from everyone. Please read [Contributing guide](https://github.com/alirdn/windows-kill/CONTRIBUTING.md).
 
 ## License
 [MIT](https://github.com/alirdn/windows-kill/LICENSE)
