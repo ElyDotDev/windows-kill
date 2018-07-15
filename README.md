@@ -5,15 +5,18 @@
 
 Windows has no process signaling mechanism like what POSIX provide using the kill command. But **windows-kill** could send signal to process by PID. :)
 
-### Why windows-kill?
-Well, I'm a node.js developer. Node has a functionality that could send signals to other process, by their PID. This functionality works great on POSIX OSes but in windows, no signal is supported (even SIGINT and SIGBREAK, that node stated is supported in windows), and sending any of those signals to any process in windows, will result in an immediate kill of those process (Even if those process have listener on sent signals). In one of my project signal sending and listening was a serious need, so I've made some research about signal sending in windows, and found an OLD (2003) project named [SendSignal](http://www.latenighthacking.com/projects/2003/sendSignal/). Well that project doesn’t support 64bit systems and also could only send SIGNBREAK (Ctrl + Break) signal. More searches lead me to an [enhanced version of SendSignal](https://github.com/walware/statet/tree/master/de.walware.statet.r.console.core/cppSendSignal), that add support of 64bit systems, but only support sending SIGINT (Ctrl + C) signal. So I've decided to write a library that support both 32bit & 64bit systems, and also both SIGNBREAK and SIGINT signals. The result is the **windows-kill-library** that has all the functionality I've needed and is the heart of **windows-kill**. For information about **windows-kill-library** navigate to [windows-kill-library folder](https://github.com/alirdn/windows-kill/tree/master/windows-kill-library).
+## Why windows-kill?
+Well, I'm a node.js developer. Node has a functionality that could send signals to other process, by their ***PID***. This functionality works great on POSIX OSes but in Windows, no signal is supported (even ```SIGINT``` and ```SIGBREAK```, that node stated is supported in Windows), and sending any of those signals to any process in windows, will result in an immediate kill of those process (Even if those process have listener on sent signals). In one of my project signal sending and listening was a serious need, so I've made some research about signal sending in windows, and found an OLD (2003) project named [SendSignal](http://www.latenighthacking.com/projects/2003/sendSignal/). Well that project doesn’t support 64bit systems and also could only send ```SIGBREAK``` (Ctrl + Break) signal. More searches lead me to an [enhanced version of SendSignal](https://github.com/walware/statet/tree/master/de.walware.statet.r.console.core/cppSendSignal), that add support of 64bit systems, but only support sending ```SIGINT``` (Ctrl + C) signal. So I've decided to write a library that support both 32bit & 64bit systems, and also both ```SIGBREAK``` and ```SIGINT``` signals. The result is the **windows-kill-library** that has all the functionality I've needed, and is the heart of **windows-kill**. For information about **windows-kill-library** navigate to [windows-kill-library folder](https://github.com/alirdn/windows-kill/tree/master/windows-kill-library).
 
 
-### Features
-- Support both 32bit (Win32) & 64bit (x64) Windows
-- Support both SIGNBREAK (Ctrl + Break) and SIGINT (Ctrl + C) Signals
+## Features
+- Support both **32bit** (Win32) & **64bit** (x64) Windows
+- Support both ```SIGBREAK``` (Ctrl + Break) and ```SIGINT``` (Ctrl + C) Signals
 - A library that could be used directly (#include), As a static library (.lib) and a dynamic library (.dll)
 - Prebuilt binaries and libraries
+
+## How it works & Limitations
+To read a detailed info please visit [windows-kill-library Readme](https://github.com/alirdn/windows-kill/tree/master/windows-kill-library#how-it-works). But it's good to know that **windows-kill** will create a ctrl event in the process that is calling it. If the caller process has no child process or not a child process of another process, nothing will happen. But if has child process or is child process, sending signal will trigger the ctrl routine of all processes in the process group, and as a result, those process will be terminated.
 
 ## Installation
 ### Prebuilt Binaries
