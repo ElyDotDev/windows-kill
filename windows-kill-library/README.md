@@ -5,14 +5,22 @@
 
 Windows has no process signaling mechanism like what POSIX provide using the kill command. But by using **windows-kill-library**, process signaling is possible. :)
 
-### Why windows-kill-library?
-Well, I'm a node.js developer. Node has a functionality that could send signals to other process, by their PID. This functionality works great on POSIX OSes but in windows, no signal is supported (even SIGINT and SIGBREAK, that node stated is supported in windows), and sending any of those signals to any process in windows, will result in an immediate kill of those process (Even if those process have listener on sent signals). In one of my project signal sending and listening was a serious need, so I've made some research about signal sending in windows, and found an OLD (2003) project named [SendSignal](http://www.latenighthacking.com/projects/2003/sendSignal/). Well that project doesn’t support 64bit systems and also could only send SIGNBREAK (Ctrl + Break) signal. More searches lead me to an [enhanced version of SendSignal](https://github.com/walware/statet/tree/master/de.walware.statet.r.console.core/cppSendSignal), that add support of 64bit systems, but only support sending SIGINT (Ctrl + C) signal. So I've decided to write a library that support both 32bit & 64bit systems, and also both SIGNBREAK and SIGINT signals. The result is the **windows-kill-library** that has all the functionality I've needed. If you want the standalone software to send signal, please see **[windows-kill](https://github.com/alirdn/windows-kill)**.
+## Why windows-kill-library?
+Well, I'm a node.js developer. Node has a functionality that could send signals to other process, by their ***PID***. This functionality works great on POSIX OSes but in Windows, no signal is supported (even ```SIGINT``` and ```SIGBREAK```, that node stated is supported in Windows), and sending any of those signals to any process in windows, will result in an immediate kill of those process (Even if those process have listener on sent signals). In one of my project signal sending and listening was a serious need, so I've made some research about signal sending in windows, and found an OLD (2003) project named [SendSignal](http://www.latenighthacking.com/projects/2003/sendSignal/). Well that project doesn’t support 64bit systems and also could only send ```SIGBREAK``` (Ctrl + Break) signal. More searches lead me to an [enhanced version of SendSignal](https://github.com/walware/statet/tree/master/de.walware.statet.r.console.core/cppSendSignal), that add support of 64bit systems, but only support sending ```SIGINT``` (Ctrl + C) signal. So I've decided to write a library that support both 32bit & 64bit systems, and also both ```SIGBREAK``` and ```SIGINT``` signals. The result is the **windows-kill-library** that has all the functionality I've needed. If you want the standalone software to send signal, please see **[windows-kill](https://github.com/alirdn/windows-kill)**.
 
 
-### Features
-- Support both 32bit (Win32) & 64bit (x64) Windows
-- Support both SIGNBREAK (Ctrl + Break) and SIGINT (Ctrl + C) Signals
+## Features
+- Support both **32bit** (Win32) & **64bit** (x64) Windows
+- Support both ```SIGBREAK``` (Ctrl + Break) and ```SIGINT``` (Ctrl + C) Signals
 - A library that could be used directly (#include), As a static library (.lib) and a dynamic library (.dll)
+
+## How it works?
+To send the signal, at first **windows-kill-library** will try to find the thread address of the ```kernel32!CtrlRoutine```, which is the handle for the ```SIGINT``` and ```SIGBREAK``` signals. To find it, at first a ctrl handler will be registered for the current application, then a ```ctrl-break``` or ```ctrl-c``` signal will be generated. After that, the registered custom ctrl handler will be called. Then using the stack trace, the parameters passed to ```kernel32!BaseThreadStart``` will be checked. The first param, which is the desired address of thread, which is the address of ```kernel32!CtrlRoutine```, will be saved. After getting the address, a remote thread in the desired process using the discovered address will be created. After that, the ctrl handlers in the remote process will be called.
+
+### Limitations
+Well, as you have read above, to find the thread address responsible for the ctrl events, **windows-kill-library** will generate a ctrl event in the application which is trying to send the signal. By default, this procedure has no problem. Because **windows-kill-library** will register a handler for the ctrl events, so the generation of event will not cause the termination of  application. But, if the programs have child processes in their process group, or if the program that is trying to send signal is a child process of another program (like in batch file), sending the signal will trigger the ctrl handler in all the processes in the process group, which lead to termination of all of processes except the signal sender.
+
+**P.S**: I'm trying to find a solution for the problem. Currently no solution founded. I'll be happy if you can help me by giving me a solution or just a clue to find the solution. So feel free and inform me by creating new issue or sending email.
 
 ## Usage Instruction
 ### Prebuilt libraries
@@ -40,9 +48,9 @@ void sendSignal(DWORD signal_pid, DWORD signal_type);
 
 This method will throw an exception in case of any error. If no exception thrown, The signal has been sent successfully.
 
-All the exception could be catched by catching ```std::exception```. But two ```std::invalid_argument``` will be sent in case of invalid ```signal_type``` and ```signal_pid```. Invalid ```signal_type``` exception message is ```EINVAL``` and invalid ```signal_pid``` exception message is ```ESRCH```.
+All the exception could be caught by catching ```std::exception```. But two ```std::invalid_argument``` will be sent in case of invalid ```signal_type``` and ```signal_pid```. Invalid ```signal_type``` exception message is ```EINVAL``` and invalid ```signal_pid``` exception message is ```ESRCH```.
 
-#### Exception handeling example code
+#### Exception handling example code
 ```c++
 #include <stdexcept>
 #include "windows-kill-library.h"
@@ -53,11 +61,11 @@ using WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK;
 
 try {
     sendSignal(signal_pid, signal_type);
-    std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
+    std::cout << "Signal sent successfully. type: " << signal_type << " | pid: " << signal_pid << "\n";
 }
 catch (const std::invalid_argument& exception) {
     if (strcmp(exception.what(), "ESRCH") == 0) {
-        std::cout << "Error: Pid dosen't exist." << std::endl;
+        std::cout << "Error: Pid doesn't exist." << std::endl;
     }
     else if(strcmp(exception.what(), "EINVAL") == 0){
         std::cout << "Error: Invalid signal type." << std::endl;
