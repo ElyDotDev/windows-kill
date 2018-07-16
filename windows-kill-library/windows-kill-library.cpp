@@ -12,8 +12,8 @@ namespace WindowsKillLibrary {
 		Sender::send(the_signal);
 	}
 
-	void warmUp(const string& what) {
-		Sender::warmUp(what);
+	void warmUp(const string& which) {
+		Sender::warmUp(which);
 	}
 };
 

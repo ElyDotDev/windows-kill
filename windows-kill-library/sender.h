@@ -22,8 +22,8 @@ namespace WindowsKillLibrary {
 		/// <summary>
 		/// Warm-up signal sender by finding the ctr-routine address before sending any signal.
 		/// </summary>
-		/// <param name="what">What ctr-routine to warm-up</param>
-		static void warmUp(const std::string& what);
+		/// <param name="which">Which ctr-routine to warm-up</param>
+		static void warmUp(const std::string& which);
 	};
 }
 

@@ -44,23 +44,23 @@ namespace WindowsKillLibrary {
 		the_remote_process.startRemoteThread();
 	}
 
-	void Sender::warmUp(const string& what) {
+	void Sender::warmUp(const string& which) {
 		string all("ALL");
 		string sigInt("SIGINT");
 		string sigBreak("SIGBREAK");
 
-		if (what.compare(all) == 0) {
+		if (which.compare(all) == 0) {
 			ctrl_c_routine.findAddress();
 			ctrl_break_routine.findAddress();
 		}
-		else if (what.compare(sigInt) == 0) {
+		else if (which.compare(sigInt) == 0) {
 			ctrl_c_routine.findAddress();
 		}
-		else if (what.compare(sigBreak) == 0) {
+		else if (which.compare(sigBreak) == 0) {
 			ctrl_break_routine.findAddress();
 		}
 		else {
-			throw invalid_argument(string("Invalid what argument."));
+			throw invalid_argument(string("Invalid which argument."));
 		}
 	}
 }
