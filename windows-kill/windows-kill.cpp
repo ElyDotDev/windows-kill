@@ -5,6 +5,10 @@
 
 using std::cout;
 using std::endl;
+using std::invalid_argument;
+using std::system_error;
+using std::runtime_error;
+using std::exception;
 
 using WindowsKillLibrary::sendSignal;
 using WindowsKillLibrary::SIGNAL_TYPE_CTRL_C;
@@ -62,32 +66,32 @@ int main(int argc,char *argv[])
 
 	try {
 		sendSignal(signal_pid, signal_type);
-		std::cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
+		cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
 	}
-	catch (const std::invalid_argument& exception) {
+	catch (const invalid_argument& exception) {
 		if (strcmp(exception.what(), "ESRCH") == 0) {
-			std::cout << "Error: Pid dosen't exist." << std::endl;
+			cout << "Error: Pid dosen't exist." << endl;
 		}
 		else if(strcmp(exception.what(), "EINVAL") == 0){
-			std::cout << "Error: Invalid signal type." << std::endl;
+			cout << "Error: Invalid signal type." << endl;
 		}
 		else {
-			std::cout << "InvalidArgument: windows-kill-library:" << exception.what() << std::endl;
+			cout << "InvalidArgument: windows-kill-library:" << exception.what() << endl;
 		}
 	}
-	catch (const std::system_error& exception) {
-		std::cout << "SystemError " << exception.code() << ": " << exception.what() << std::endl;
+	catch (const system_error& exception) {
+		cout << "SystemError " << exception.code() << ": " << exception.what() << endl;
 	}
-	catch (const std::runtime_error& exception) {
+	catch (const runtime_error& exception) {
 		if (strcmp(exception.what(), "EPERM") == 0) {
-			std::cout << "Not enough permission to send the signal." << std::endl;
+			cout << "Not enough permission to send the signal." << endl;
 		}
 		else {
-			std::cout << "RuntimeError: windows-kill-library:" << exception.what() << std::endl;
+			cout << "RuntimeError: windows-kill-library:" << exception.what() << endl;
 		}
 	}
-	catch (const std::exception& exception) {
-		std::cout << "Error: windows-kill-library:" << exception.what() << std::endl;
+	catch (const exception& exception) {
+		cout << "Error: windows-kill-library:" << exception.what() << endl;
 	}
 
     return 0;
