@@ -36,6 +36,6 @@ namespace WindowsKillLibrary {
 	/// Calls sender warm-up method.
 	/// </summary>
 	/// <param name="what">What ctr-routine to warm-up</param>
-	void WINDOWSKILLLIBRARY_API warmUp(const std::string& what);
+	void WINDOWSKILLLIBRARY_API warmUp(const std::string& what = "ALL");
 };
 
