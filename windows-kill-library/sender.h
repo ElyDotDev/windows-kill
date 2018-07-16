@@ -18,6 +18,12 @@ namespace WindowsKillLibrary {
 		/// </summary>
 		/// <param name="the_signal">Signal instance</param>
 		static void send(Signal the_signal);
+
+		/// <summary>
+		/// Warm-up signal sender by finding the ctr-routine address before sending any signal.
+		/// </summary>
+		/// <param name="what">What ctr-routine to warm-up</param>
+		static void warmUp(const std::string& what);
 	};
 }
 

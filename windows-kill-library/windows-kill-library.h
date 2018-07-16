@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <string>
 
 #ifdef _USRDLL
 #ifdef WINDOWSKILLLIBRARY_EXPORTS
@@ -31,5 +32,11 @@ namespace WindowsKillLibrary
 	/// <param name="signal_pid">The signal target process id.</param>
 	/// <param name="signal_type">The signal type.</param>
 	void WINDOWSKILLLIBRARY_API sendSignal(DWORD signal_pid, DWORD signal_type);
+
+	/// <summary>
+	/// Calls sender warm-up method.
+	/// </summary>
+	/// <param name="what">What ctr-routine to warm-up</param>
+	void WINDOWSKILLLIBRARY_API warmUp(const std::string& what);
 };
 
