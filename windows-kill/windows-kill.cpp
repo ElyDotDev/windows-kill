@@ -76,7 +76,7 @@ int main(int argc,char *argv[])
 			cout << "Error: Invalid signal type." << endl;
 		}
 		else {
-			cout << "InvalidArgument: windows-kill-library:" << exception.what() << endl;
+			cout << "InvalidArgument: windows-kill-library: " << exception.what() << endl;
 		}
 	}
 	catch (const system_error& exception) {
@@ -87,11 +87,11 @@ int main(int argc,char *argv[])
 			cout << "Not enough permission to send the signal." << endl;
 		}
 		else {
-			cout << "RuntimeError: windows-kill-library:" << exception.what() << endl;
+			cout << "RuntimeError: windows-kill-library: " << exception.what() << endl;
 		}
 	}
 	catch (const exception& exception) {
-		cout << "Error: windows-kill-library:" << exception.what() << endl;
+		cout << "Error: windows-kill-library: " << exception.what() << endl;
 	}
 
     return 0;
