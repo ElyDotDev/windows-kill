@@ -3,6 +3,10 @@
 #include "signal.h"
 
 namespace WindowsKillLibrary {
+
+	using std::invalid_argument;
+	using std::string;
+
 	Signal::Signal(DWORD pid, DWORD_PTR type)
 	{
 		Signal::validateType(type);
@@ -21,7 +25,7 @@ namespace WindowsKillLibrary {
 
 	void Signal::validateType(DWORD_PTR type) {
 		if (!(type == CTRL_C_EVENT || type == CTRL_BREAK_EVENT)) {
-			throw std::invalid_argument(std::string("EINVAL"));
+			throw invalid_argument(string("EINVAL"));
 		}
 	}
 
@@ -44,7 +48,7 @@ namespace WindowsKillLibrary {
 		CloseHandle(pss);
 
 		if (!exist) {
-			throw std::invalid_argument(std::string("ESRCH"));
+			throw invalid_argument(string("ESRCH"));
 		}
 	}
 }

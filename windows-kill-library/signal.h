@@ -1,7 +1,6 @@
 #pragma once
 
 namespace WindowsKillLibrary {
-
 	/// <summary>
 	/// Signal class to store and validate the signal we want to send.
 	/// </summary>

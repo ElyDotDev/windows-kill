@@ -3,6 +3,13 @@
 #include <DbgHelp.h>
 
 namespace WindowsKillLibrary {
+	
+	using std::system_error;
+	using std::error_code;
+	using std::system_category;
+	using std::runtime_error;
+	using std::string;
+	
 	/// <summary>
 	/// a refrence to the *this used for using in SetConsoleCtrlHandler custom handler method (customConsoleCtrlHandler)
 	/// </summary>
@@ -51,28 +58,28 @@ namespace WindowsKillLibrary {
 			this->found_address_event = CreateEvent(NULL, true, false, NULL);
 
 			if (this->found_address_event == NULL) {
-				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:CreateEvent");
+				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:findAddress:CreateEvent");
 			}
 
 			if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlRoutine::customConsoleCtrlHandler, true)) {
 				this->closeFoundAddressEvent();
-				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:SetConsoleCtrlHandlert");
+				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:findAddress:SetConsoleCtrlHandlert");
 			}
 
 			if (!GenerateConsoleCtrlEvent(this->event_type, 0)) {
 				this->closeFoundAddressEvent();
-				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:GenerateConsoleCtrlEvent");
+				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:findAddress:GenerateConsoleCtrlEvent");
 			}
 
 			DWORD dwWaitResult = WaitForSingleObject(this->found_address_event, INFINITE);
 			if (dwWaitResult == WAIT_FAILED) {
 				this->closeFoundAddressEvent();
-				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:findAddress:WaitForSingleObject");
+				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:findAddress:WaitForSingleObject");
 			}
 
 			if (this->address == NULL) {
 				this->closeFoundAddressEvent();
-				throw std::runtime_error(std::string("ctrl-routine:findAddress:checkAddressIsNotNull"));
+				throw runtime_error(string("ctrl-routine:findAddress:checkAddressIsNotNull"));
 			}
 
 			this->closeFoundAddressEvent();
@@ -84,7 +91,7 @@ namespace WindowsKillLibrary {
 	void CtrlRoutine::closeFoundAddressEvent(void) {
 		if (this->found_address_event != NULL) {
 			if (!CloseHandle(this->found_address_event)) {
-				throw std::system_error(std::error_code(GetLastError(), std::system_category()), "ctrl-routine:closeFoundAddressEvent");
+				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:closeFoundAddressEvent");
 			}
 			this->found_address_event = (HANDLE)NULL;
 		}
@@ -103,7 +110,7 @@ namespace WindowsKillLibrary {
 
 		/* TODO: Remove. No Exception Available here.
 		if (!SetEvent(CtrlRoutine::current_routine->found_address_event)) {
-			throw std::runtime_error(std::string("Cannot set event for found address event handle. Code: ") + std::to_string(GetLastError()));
+			throw runtime_error(string("Cannot set event for found address event handle. Code: ") + std::to_string(GetLastError()));
 		}
 		*/
 		
@@ -118,7 +125,7 @@ namespace WindowsKillLibrary {
 		if (count != 1) {
 			return;
 			/*	TODO: Remove. No Exception Available here.
-				throw std::runtime_error(std::string("Cannot capture stack back trace."));
+				throw runtime_error(string("Cannot capture stack back trace."));
 			*/
 		}
 
@@ -126,7 +133,7 @@ namespace WindowsKillLibrary {
 		if (!SymInitialize(hProcess, NULL, TRUE)) {
 			return;
 			/*	TODO: Remove. No Exception Available here.
-				throw std::runtime_error(std::string("Cannot SymInitialize. Code: ") + std::to_string(GetLastError()));
+				throw runtime_error(string("Cannot SymInitialize. Code: ") + std::to_string(GetLastError()));
 			*/
 		}
 
@@ -140,7 +147,7 @@ namespace WindowsKillLibrary {
 		if (!SymFromAddr(hProcess, (DWORD64)ctrlRoutine, &dwDisplacement, pSymbol)) {
 			return;
 			/*	TODO: Remove. No Exception Available here.
-				throw std::runtime_error(std::string("Cannot SymFromAddr. Code: ") + std::to_string(GetLastError()));
+				throw runtime_error(string("Cannot SymFromAddr. Code: ") + std::to_string(GetLastError()));
 			*/
 		}
 		funcCtrlRoutine = reinterpret_cast<LPVOID>(pSymbol->Address);

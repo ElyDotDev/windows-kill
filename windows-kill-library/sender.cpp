@@ -3,10 +3,9 @@
 #include "ctrl-routine.h"
 #include "signal.h"
 #include "remote-process.h"
-#include <iostream>
 
-namespace WindowsKillLibrary
-{
+namespace WindowsKillLibrary {
+
 	using std::string;
 	using std::invalid_argument;
 
@@ -45,7 +44,7 @@ namespace WindowsKillLibrary
 		the_remote_process.startRemoteThread();
 	}
 
-	void Sender::warmUp(const std::string& what) {
+	void Sender::warmUp(const string& what) {
 		string all("ALL");
 		string sigInt("SIGINT");
 		string sigBreak("SIGBREAK");

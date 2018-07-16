@@ -3,8 +3,8 @@
 #include "signal.h"
 #include "sender.h"
 
-namespace WindowsKillLibrary
-{
+namespace WindowsKillLibrary {
+
 	using std::string;
 
 	void sendSignal(DWORD signal_pid, DWORD signal_type) {

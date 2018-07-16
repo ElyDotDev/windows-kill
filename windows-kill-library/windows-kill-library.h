@@ -14,8 +14,7 @@
 
 #define WINDOWSKILLLIBRARY_VERSION "3.0.0"
 
-namespace WindowsKillLibrary
-{
+namespace WindowsKillLibrary {
 	/// <summary>
 	/// Signal type of CTRL + C
 	/// </summary>
