@@ -22,6 +22,8 @@ Well, as you have read above, to find the thread address responsible for the ctr
 
 **P.S**: I'm trying to find a solution for the problem. Currently no solution founded. I'll be happy if you can help me by giving me a solution or just a clue to find the solution. So feel free and inform me by creating new issue or sending email.
 
+**P.S-1**: Warm-up is added for applications which have child processes, to call the warmUp before creating any child process. So the thread address saved before any child process created.
+
 ## Usage Instruction
 ### Prebuilt libraries
 Fastest and easiest way to use the **windows-kill-library** is download the prebuilt libraries. You could find them in repo's [Releases page](https://github.com/alirdn/windows-kill/releases). The library has been built both as a dynamic library (.dll) and static library (.lib) for both 32bit (Win32) and 64bit (x64) Windows.
@@ -89,6 +91,23 @@ catch (const std::exception& exception) {
     std::cout << "Error: windows-kill-library:" << exception.what() << std::endl;
 }
 ```
+
+### WindowsKillLibrary::warmUp
+This method, will call the ```ctr-routine->finAddress()```, for the ```SIGINT``` and ```SIGBREAK``` signals. By default, those address will retrieve, when the send method is called. A cache is available too, so only the first time that a ```ctr-routine``` is being used, the address actually retrieve, on next calls, only the cached value will be used.
+Because of limitations explained above, this method is a way to overcome the issue. By calling this method on parent process, before creating any child process, the address will cached and next call will not create a self-signaling procedure to find address.
+
+```c++
+/// <summary>
+/// Calls sender warm-up method.
+/// </summary>
+/// <param name="which">Which ctr-routine to warm-up</param>
+void warmUp(const std::string& which = "ALL");
+```
+**Arguments**: 
+* ```which```: Define which ctr-routine to warm-up. Available values:
+    * ```ALL``` or nothing: Warm-up all the ctr-routines
+    * ```SIGINT```: Warmup ```ctrl-c``` or ```SIGINT``` ctr-routine.
+    * ```SIGBREAK```: Warmup ```ctrl-break``` or ```SIGBREAK``` ctr-routine.
 
 ### WindowsKillLibrary::SIGNAL_TYPE_CTRL_BREAK
 The **SIGBREAK** signal type.
