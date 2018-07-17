@@ -43,6 +43,11 @@ namespace WindowsKillLibrary {
 		void findAddressByStackBackTrace(void);
 
 		/// <summary>
+		/// Remove custom consoleCtrlHandler
+		/// </summary>
+		void removeCustomConsoleCtrlHandler(void);
+
+		/// <summary>
 		/// Closes the opend found address event.
 		/// </summary>
 		void closeFoundAddressEvent(void);

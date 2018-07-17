@@ -62,30 +62,41 @@ namespace WindowsKillLibrary {
 			}
 
 			if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlRoutine::customConsoleCtrlHandler, true)) {
+				this->removeCustomConsoleCtrlHandler();
 				this->closeFoundAddressEvent();
 				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:findAddress:SetConsoleCtrlHandlert");
 			}
 
 			if (!GenerateConsoleCtrlEvent(this->event_type, 0)) {
+				this->removeCustomConsoleCtrlHandler();
 				this->closeFoundAddressEvent();
 				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:findAddress:GenerateConsoleCtrlEvent");
 			}
 
 			DWORD dwWaitResult = WaitForSingleObject(this->found_address_event, INFINITE);
 			if (dwWaitResult == WAIT_FAILED) {
+				this->removeCustomConsoleCtrlHandler();
 				this->closeFoundAddressEvent();
 				throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:findAddress:WaitForSingleObject");
 			}
 
 			if (this->address == NULL) {
+				this->removeCustomConsoleCtrlHandler();
 				this->closeFoundAddressEvent();
 				throw runtime_error(string("ctrl-routine:findAddress:checkAddressIsNotNull"));
 			}
 
+			this->removeCustomConsoleCtrlHandler();
 			this->closeFoundAddressEvent();
 		}
 		// TODO: remove;
 		//std::cout << this->event_type << " : " << this->address << "\n";
+	}
+
+	void CtrlRoutine::removeCustomConsoleCtrlHandler(void) {
+		if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)CtrlRoutine::customConsoleCtrlHandler, false)) {
+			throw system_error(error_code(GetLastError(), system_category()), "ctrl-routine:removeCustomConsoleCtrlHandler");
+		}
 	}
 
 	void CtrlRoutine::closeFoundAddressEvent(void) {
