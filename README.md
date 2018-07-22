@@ -19,8 +19,19 @@ Well, I'm a node.js developer. Node has a functionality that could send signals 
 To read a detailed info please visit [windows-kill-library Readme](https://github.com/alirdn/windows-kill/tree/master/windows-kill-library#how-it-works). But it's good to know that **windows-kill** will create a ctrl event in the process that is calling it. If the caller process has no child process or not a child process of another process, nothing will happen. But if has child process or is child process, sending signal will trigger the ctrl routine of all processes in the process group, and as a result, those process will be terminated.
 
 ## Installation
+### Chocolatey - 32bit (Win32) and 64bit (x64)
+#### Install
+```
+> choco install windows-kill
+```
+
+#### Update
+```shell
+> choco upgrade windows-kill
+```
+
 ### Prebuilt Binaries
-Fastest and easiest way to install and use the **windows-kill** is download the prebuilt binaries. You could find them in repo's [Releases page](https://github.com/alirdn/windows-kill/releases).
+You can also download the prebuilt binaries of **windows-kill**. You could find them in repo's [Releases page](https://github.com/alirdn/windows-kill/releases).
 Both the 32bit (Win32) and 64bit (x64) versions are available.
 
 ### Compile & Build from Source code
