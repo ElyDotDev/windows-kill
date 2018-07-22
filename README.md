@@ -21,12 +21,12 @@ To read a detailed info please visit [windows-kill-library Readme](https://githu
 ## Installation
 ### Chocolatey - 32bit (Win32) and 64bit (x64)
 #### Install
-```
+```bash
 > choco install windows-kill
 ```
 
 #### Update
-```shell
+```bash
 > choco upgrade windows-kill
 ```
 
@@ -46,33 +46,33 @@ If signal sending was successful or any error occurred during the sending, appro
 
 ### Sending signal to PID
 ```bash
->windows-kill -SIGNALTYPE PID
+> windows-kill -SIGNALTYPE PID
 ```
 
 #### Sending SIGBREAK (Ctrl + Break) to sample 1234 PID
 ```bash
->windows-kill -SIGBREAK 1234
+> windows-kill -SIGBREAK 1234
 ```
 ```bash
->windows-kill -1 1234
+> windows-kill -1 1234
 ```
 
 #### Sending SIGINT (Ctrl + C) to sample 1234 PID
 ```bash
->windows-kill -SIGINT 1234
+> windows-kill -SIGINT 1234
 ```
 ```bash
->windows-kill -2 1234
+> windows-kill -2 1234
 ```
 
 #### List supported signal types
 ```bash
->windows-kill -l
+> windows-kill -l
 ```
 
 #### Usage help
 ```bash
->windows-kill -h
+> windows-kill -h
 ```
 
 ## Build Configurations
