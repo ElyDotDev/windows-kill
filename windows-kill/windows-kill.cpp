@@ -66,7 +66,7 @@ int main(int argc,char *argv[])
 
 	try {
 		sendSignal(signal_pid, signal_type);
-		cout << "Signal sent successfuly. type: " << signal_type << " | pid: " << signal_pid << "\n";
+		cout << "Signal sent successfully. type: " << signal_type << " | pid: " << signal_pid << "\n";
 	}
 	catch (const invalid_argument& exception) {
 		if (strcmp(exception.what(), "ESRCH") == 0) {
